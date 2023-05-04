@@ -1,6 +1,6 @@
 //! Port of LLVM's APFloat software floating-point implementation from the
 //! following C++ sources (please update commit hash when backporting):
-//! https://github.com/llvm/llvm-project/commit/f3598e8fca83ccfb11f58ec7957c229e349765e3
+//! <https://github.com/llvm/llvm-project/commit/f3598e8fca83ccfb11f58ec7957c229e349765e3>
 //! * `llvm/include/llvm/ADT/APFloat.h` -> `Float` and `FloatConvert` traits
 //! * `llvm/lib/Support/APFloat.cpp` -> `ieee` and `ppc` modules
 //! * `llvm/unittests/ADT/APFloatTest.cpp` -> `tests` directory
@@ -361,7 +361,7 @@ pub trait Float:
     fn from_bits(input: u128) -> Self;
     fn from_i128_r(input: i128, round: Round) -> StatusAnd<Self> {
         if input < 0 {
-            Self::from_u128_r(-input as u128, -round).map(|r| -r)
+            Self::from_u128_r(input.wrapping_neg() as u128, -round).map(|r| -r)
         } else {
             Self::from_u128_r(input as u128, round)
         }
